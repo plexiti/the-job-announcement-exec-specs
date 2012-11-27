@@ -1,0 +1,30 @@
+        DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+        capabilities.setCapability("platform", "Windows 2012");
+        capabilities.setCapability("version", "17");
+        capabilities.setCapability("name", testName.getMethodName());
+        capabilities.setCapability("tags", new String[]{"web", "firefox", "windows"});
+
+        DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
+        capabilities.setCapability("platform", "Windows 2012");
+        capabilities.setCapability("version", "10");
+        capabilities.setCapability("name", testName.getMethodName());
+        capabilities.setCapability("tags", new String[]{"web", "ie", "windows"});
+
+        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+        capabilities.setCapability("platform", Platform.VISTA);
+        //capabilities.setCapability("version", "10");
+        capabilities.setCapability("name", testName.getMethodName());
+        capabilities.setCapability("tags", new String[]{"web", "chrome", "windows"});
+
+        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+        capabilities.setCapability("platform", "Mac 10.8");
+        //capabilities.setCapability("version", "10");
+        capabilities.setCapability("name", testName.getMethodName());
+        capabilities.setCapability("tags", new String[]{"web", "chrome", "mac"});
+
+        // FAILED
+        DesiredCapabilities capabilities = DesiredCapabilities.safari();
+        capabilities.setCapability("platform", "Mac 10.6");
+        capabilities.setCapability("version", "5");
+        capabilities.setCapability("name", testName.getMethodName());
+        capabilities.setCapability("tags", new String[]{"web", "safari", "mac"});

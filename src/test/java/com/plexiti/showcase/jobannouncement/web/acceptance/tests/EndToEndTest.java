@@ -6,6 +6,7 @@ import com.saucelabs.junit.SauceOnDemandTestWatcher;
 import org.junit.*;
 import org.junit.rules.TestName;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -16,15 +17,6 @@ import java.util.Date;
 
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Simple {@link RemoteWebDriver} test that demonstrates how to run your Selenium tests with <a href="http://saucelabs.com/ondemand">Sauce OnDemand</a>.
- *
- * This test also includes the <a href="">Sauce JUnit</a> helper classes, which will use the Sauce REST API to mark the Sauce Job as passed/failed.
- *
- * In order to use the {@link SauceOnDemandTestWatcher}, the test must implement the {@link SauceOnDemandSessionIdProvider} interface.
- *
- * @author Ross Rowe
- */
 public class EndToEndTest implements SauceOnDemandSessionIdProvider {
 
     /**
@@ -51,29 +43,6 @@ public class EndToEndTest implements SauceOnDemandSessionIdProvider {
 
     private String appUrl = "http://the-job-announcement.com"; // "http://localhost:8080/the-job-announcement/";
 
-    @Before
-    public void setUp() throws Exception {
-
-        DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
-        capabilities.setCapability("platform", "Windows 2012");
-        capabilities.setCapability("version", "10");
-        capabilities.setCapability("name", testName.getMethodName());
-        capabilities.setCapability("tags", new String[]{"web", "ie", "windows"});
-        this.driver = new RemoteWebDriver(
-                new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub"),
-                capabilities);
-        this.sessionId = ((RemoteWebDriver)driver).getSessionId().toString();
-    }
-
-//    @Before
-//    public void setUp() throws Exception {
-//        driver = new FirefoxDriver();
-//    }
-
-    @Override
-    public String getSessionId() {
-        return sessionId;
-    }
 
     @Test
     public void fullProcessTest() throws Exception {
@@ -162,9 +131,6 @@ public class EndToEndTest implements SauceOnDemandSessionIdProvider {
         // Click on the "View" button
         driver.findElement(By.cssSelector("input[name*='published']")).click();
         assertTrue(driver.getTitle().contains("Published job announcement"));
-
-        //driver.get("https://twitter.com/TheJobAnnouncer");
-
     }
 
     private void switchToTab(String tabTitle) {
@@ -178,6 +144,26 @@ public class EndToEndTest implements SauceOnDemandSessionIdProvider {
         driver.findElement(By.className("dropdown-toggle")).click();
         driver.findElement(By.linkText(userName)).click();
         // TODO: check that the switch was successful!
+    }
+
+    @Before
+    public void setUp() throws Exception {
+
+        DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+        capabilities.setCapability("platform", "Windows 2012");
+        capabilities.setCapability("version", "17");
+        capabilities.setCapability("name", testName.getMethodName());
+        capabilities.setCapability("tags", new String[]{"web", "firefox", "windows"});
+
+        this.driver = new RemoteWebDriver(
+                new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub"),
+                capabilities);
+        this.sessionId = ((RemoteWebDriver)driver).getSessionId().toString();
+    }
+
+    @Override
+    public String getSessionId() {
+        return sessionId;
     }
 
     @After
