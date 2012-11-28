@@ -1,4 +1,4 @@
-package com.plexiti.showcase.jobannouncement.web.acceptance.tests;
+package com.plexiti.showcase.jobannouncement.tests.functional;
 
 import org.junit.*;
 import org.openqa.selenium.By;
@@ -14,6 +14,14 @@ public class EndToEndLocalTest {
     private WebDriver driver;
 
     private String appUrl = "http://localhost:8080/the-job-announcement/";
+
+    public void setDriver(WebDriver theDriver) {
+        this.driver = theDriver;
+    }
+
+    public void setAppUrl(String url) {
+        this.appUrl = url;
+    }
 
     @Test
     public void fullProcessTest() throws Exception {
@@ -119,7 +127,7 @@ public class EndToEndLocalTest {
 
     @Before
     public void setUp() throws Exception {
-        driver = new FirefoxDriver();
+        setDriver(new FirefoxDriver());
     }
 
     @After

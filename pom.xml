@@ -3,13 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>the-job-announcement-test</artifactId>
-    <groupId>com.plexiti</groupId>
+    <groupId>com.plexiti.showcase</groupId>
+    <artifactId>the-job-announcement-specs-java</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Automated tests for The Job Announcement web application</name>
-    <description>Automated tests for The Job Announcement web application at http://the-job-announcement.com</description>
+    <name>Executable specifications for The Job Announcement web application</name>
+    <description>Executable specifications for The Job Announcement web application at http://the-job-announcement.com (Java version)</description>
 
     <properties>
         <!-- Avoid the message "[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!" -->
