@@ -16,6 +16,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Avoid the message "[WARNING] Using platform encoding (UTF-8 actually) ... also for the failsafe plugin -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <fest.assert.version>2.0M8</fest.assert.version>
     </properties>
 
     <dependencies>
@@ -37,6 +38,12 @@
             <version>LATEST</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+             <groupId>org.easytesting</groupId>
+             <artifactId>fest-assert-core</artifactId>
+             <version>2.0M8</version>
+             <scope>compile</scope>
+         </dependency>
     </dependencies>
 
     <build>
