@@ -9,6 +9,7 @@ import java.util.Date;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+@Ignore
 public class EndToEndLocalTest {
 
     private WebDriver driver;

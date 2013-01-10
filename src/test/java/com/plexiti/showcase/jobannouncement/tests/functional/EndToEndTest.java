@@ -17,6 +17,7 @@ import java.util.Date;
 
 import static junit.framework.Assert.assertTrue;
 
+@Ignore
 public class EndToEndTest implements SauceOnDemandSessionIdProvider {
 
     /**
