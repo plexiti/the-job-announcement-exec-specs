@@ -16,7 +16,3 @@ Feature: Request New Announcement
   Scenario: As a department manager, I request a new job announcement
     Given I am logged in as "Gonzo the Great"
     Then I see a button "Request new announcement" enabled
-
-  Scenario: As a department manager, I request a new job announcement
-    Given I am logged in as "Gonzo the Great"
-    Then I see a button "Request new announcement" enabled
