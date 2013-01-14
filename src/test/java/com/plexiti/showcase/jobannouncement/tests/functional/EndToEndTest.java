@@ -18,6 +18,7 @@ import java.util.Date;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
+@Ignore
 public class EndToEndTest implements SauceOnDemandSessionIdProvider {
 
     /**
@@ -47,6 +48,7 @@ public class EndToEndTest implements SauceOnDemandSessionIdProvider {
     private String appUrl;
 
     @Test
+    @Ignore
     public void fullProcessTest() throws Exception {
         EndToEndLocalTest test = new EndToEndLocalTest();
         test.setAppUrl(appUrl);
