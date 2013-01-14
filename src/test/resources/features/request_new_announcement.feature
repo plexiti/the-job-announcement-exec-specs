@@ -1,3 +1,4 @@
+@first-release @super-important
 Feature: Request New Announcement
 
   A manager of a business unit has the need of a new co-worker in his/her department.
