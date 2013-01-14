@@ -7,5 +7,6 @@ Feature: Request New Announcement
 
   Scenario: As a department manager, I can request a new job announcement
     Given I am logged in as "Gonzo the Great"
+    And I am on the "control center" page
     When I request an announcement with title "Java Developer" and description "-10 years Java experience"
     Then A new job announcement with these attributes exists
