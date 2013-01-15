@@ -17,7 +17,7 @@
         <!-- Avoid the message "[WARNING] Using platform encoding (UTF-8 actually) ... also for the failsafe plugin -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <fest.assert.version>2.0M8</fest.assert.version>
-        <cucumber-jvm.verions>1.1.1</cucumber-jvm.verions>
+        <cucumber-jvm.version>1.0.8</cucumber-jvm.version>
     </properties>
 
     <dependencies>
@@ -30,19 +30,19 @@
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>${cucumber-jvm.verions}</version>
+            <version>${cucumber-jvm.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>${cucumber-jvm.verions}</version>
+            <version>${cucumber-jvm.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-picocontainer</artifactId>
-            <version>${cucumber-jvm.verions}</version>
+            <version>${cucumber-jvm.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
