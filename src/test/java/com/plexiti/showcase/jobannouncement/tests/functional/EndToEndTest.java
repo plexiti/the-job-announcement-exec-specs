@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -36,10 +37,11 @@ public class EndToEndTest implements SauceOnDemandSessionIdProvider {
     public @Rule SauceOnDemandTestWatcher resultReportingTestWatcher;
 
     /**
-     * JUnit Rule which will record the test name of the current test.  This is referenced when creating the {@link DesiredCapabilities},
+     * JUnit Rule which will record the test name of the current test.
+     * This is referenced when creating the {@link DesiredCapabilities},
      * so that the Sauce Job is created with the test name.
      */
-    public @Rule TestName testName= new TestName();
+    public @Rule TestName testName = new TestName();
 
     private WebDriver driver;
 
@@ -48,7 +50,6 @@ public class EndToEndTest implements SauceOnDemandSessionIdProvider {
     private String appUrl;
 
     @Test
-    @Ignore
     public void fullProcessTest() throws Exception {
         EndToEndLocalTest test = new EndToEndLocalTest();
         test.setAppUrl(appUrl);
