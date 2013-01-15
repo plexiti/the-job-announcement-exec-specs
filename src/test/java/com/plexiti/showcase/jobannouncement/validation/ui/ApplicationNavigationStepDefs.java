@@ -1,6 +1,6 @@
-package com.plexiti.showcase.jobannouncement.features.selenium.definitions;
+package com.plexiti.showcase.jobannouncement.validation.ui;
 
-import com.plexiti.showcase.jobannouncement.features.selenium.support.SharedWebDriver;
+import com.plexiti.showcase.jobannouncement.validation.support.SauceLabsWebDriver;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,23 +9,18 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 public class ApplicationNavigationStepDefs {
     private final WebDriver driver;
-    private String appUrl = "http://the-job-announcement.com/";
+    private String appUrl;
 
-    public ApplicationNavigationStepDefs(SharedWebDriver webDriver) {
+    public ApplicationNavigationStepDefs(SauceLabsWebDriver webDriver) {
         this.driver = webDriver;
+        this.appUrl = webDriver.getApplicationUrl();
     }
 
     @Given("^I am logged in as \"([^\"]*)\"$")
     public void I_am_logged_in_as(String username) throws Throwable {
         driver.get(appUrl);
         assertThat(driver.getTitle()).contains("Index");
-        switchToUser("Gonzo The Great");
-    }
-
-    @Given("^I am on the \"([^\"]*)\" page$")
-    public void I_am_on_the_page(String pageTitle) throws Throwable {
-        driver.findElement(By.linkText("Start the role play!")).click();
-        assertThat(driver.getTitle()).contains(pageTitle);
+        switchToUser(username);
     }
 
     private void switchToTab(String tabTitle) {
