@@ -1,10 +1,15 @@
 package com.plexiti.showcase.jobannouncement.validation.support;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
+import com.saucelabs.common.SauceOnDemandSessionIdProvider;
+import cucumber.api.Scenario;
+import org.junit.runner.Description;
 import org.openqa.selenium.*;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import javax.sound.midi.SysexMessage;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -34,9 +39,10 @@ import static junit.framework.Assert.fail;
  * the life of the JVM.
  * </p>
  */
-public class SauceLabsWebDriver implements WebDriver {
+public class SauceLabsWebDriver implements SauceOnDemandSessionIdProvider, WebDriver {
     protected WebDriver driver;
     private SauceOnDemandAuthentication authentication;
+    public SauceOnDemandCucumberTestWatcher resultReportingTestWatcher;
 
     protected String accessKey;
     protected String username;
@@ -45,7 +51,7 @@ public class SauceLabsWebDriver implements WebDriver {
     public SauceLabsWebDriver() {
     }
 
-    public void init(String scenarioName) throws MalformedURLException {
+    public void parseOptions() {
         username = System.getProperty("sauceLabsUsername");
         if (username == null) {
             fail("You need to pass the Sauce Labs username as a property with '-DsauceLabsUsername=<username>'");
@@ -62,7 +68,16 @@ public class SauceLabsWebDriver implements WebDriver {
         }
 
         authentication = new SauceOnDemandAuthentication(username, accessKey);
+    }
 
+    public void initLocal(String scenarioName) {
+        //System.err.println("WebDriver initialized with job description '" + scenarioName + "'");
+        parseOptions();
+        this.driver = new FirefoxDriver();
+    }
+
+    public void init(String scenarioName) throws MalformedURLException {
+        parseOptions();
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         capabilities.setCapability("platform", "Windows 2012");
         capabilities.setCapability("version", "17");
@@ -72,10 +87,11 @@ public class SauceLabsWebDriver implements WebDriver {
         this.driver = new RemoteWebDriver(
                 new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub"),
                 capabilities);
+        this.resultReportingTestWatcher = new SauceOnDemandCucumberTestWatcher(this, this.authentication);
     }
 
     public String getSessionId() {
-        return ((RemoteWebDriver)driver).getSessionId().toString();
+        return ((RemoteWebDriver) driver).getSessionId().toString();
     }
 
     /*
@@ -83,6 +99,15 @@ public class SauceLabsWebDriver implements WebDriver {
      */
     public SauceOnDemandAuthentication getAuthentication() {
         return this.authentication;
+    }
+
+    public void reportResultAndQuit(Scenario scenario) {
+        if (scenario.isFailed()) {
+            this.resultReportingTestWatcher.failed(null, Description.EMPTY);
+        } else {
+            this.resultReportingTestWatcher.succeeded(Description.EMPTY);
+        }
+        this.driver.quit();
     }
 
     public String getApplicationUrl() {

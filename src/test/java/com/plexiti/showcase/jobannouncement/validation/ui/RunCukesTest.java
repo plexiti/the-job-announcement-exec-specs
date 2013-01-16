@@ -9,7 +9,12 @@ import cucumber.api.junit.Cucumber;
 @RunWith(Cucumber.class)
 @Cucumber.Options(
         features = "src/test/resources/features",
-        format = { "pretty", "html:target/cucumber-html-report", "json-pretty:target/cucumber-report.json" }
+        format = {
+                "pretty",
+                "html:target/cucumber-html-report",
+                "json-pretty:target/cucumber-report.json",
+                "cucumber.runtime.formatter.JUnitFeatureAndScenarioAwareFormatter:target/extended-cucumber-report"
+        }
 )
 public class RunCukesTest {
 }
