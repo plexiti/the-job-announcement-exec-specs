@@ -17,10 +17,6 @@ public class ApplicationNavigationStepDefs {
 
     @Given("^I am logged in as \"([^\"]*)\"$")
     public void I_am_logged_in_as(String username) throws Throwable {
-        gherkin.formatter.model.Feature featureModel = JUnitFeatureAndScenarioAwareFormatter.getCurrentFeature();
-        gherkin.formatter.model.Scenario scenarioModel = JUnitFeatureAndScenarioAwareFormatter.getCurrentScenario();
-        driver.init(featureModel.getName() + ": " + scenarioModel.getName());
-
         driver.get(driver.getApplicationUrl());
         assertThat(driver.getTitle()).contains("Index");
         switchToUser(username);

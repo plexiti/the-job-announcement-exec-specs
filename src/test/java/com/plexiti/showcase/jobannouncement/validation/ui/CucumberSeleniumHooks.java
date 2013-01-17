@@ -32,12 +32,15 @@ public class CucumberSeleniumHooks {
 
     @Before
     public void startScenarioTest(Scenario scenario) throws IOException {
-
-        System.err.println("@Before hook called");
+        // driver.initLocal();
+        driver.initRemote();
     }
 
     @After
     public void stopScenarioTest(Scenario scenario) throws IOException {
-        this.driver.reportResultAndQuit(scenario);
+        gherkin.formatter.model.Feature featureModel = JUnitFeatureAndScenarioAwareFormatter.getCurrentFeature();
+        gherkin.formatter.model.Scenario scenarioModel = JUnitFeatureAndScenarioAwareFormatter.getCurrentScenario();
+        driver.updateRemoteJobAndQuit(featureModel, scenarioModel, scenario.isFailed());
+        //driver.quit();
     }
 }

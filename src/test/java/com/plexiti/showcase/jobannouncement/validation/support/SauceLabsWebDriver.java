@@ -2,17 +2,25 @@ package com.plexiti.showcase.jobannouncement.validation.support;
 
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.common.SauceOnDemandSessionIdProvider;
-import cucumber.api.Scenario;
+import com.saucelabs.common.Utils;
+import com.saucelabs.saucerest.SauceREST;
+import gherkin.formatter.model.Feature;
+import gherkin.formatter.model.Scenario;
 import org.junit.runner.Description;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import javax.sound.midi.SysexMessage;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static junit.framework.Assert.fail;
@@ -47,6 +55,7 @@ public class SauceLabsWebDriver implements SauceOnDemandSessionIdProvider, WebDr
     protected String accessKey;
     protected String username;
     private String appUrl;
+    private SauceREST sauceREST;
 
     public SauceLabsWebDriver() {
     }
@@ -70,24 +79,23 @@ public class SauceLabsWebDriver implements SauceOnDemandSessionIdProvider, WebDr
         authentication = new SauceOnDemandAuthentication(username, accessKey);
     }
 
-    public void initLocal(String scenarioName) {
-        //System.err.println("WebDriver initialized with job description '" + scenarioName + "'");
+    public void initLocal() {
         parseOptions();
         this.driver = new FirefoxDriver();
     }
 
-    public void init(String scenarioName) throws MalformedURLException {
+    public void initRemote() throws MalformedURLException {
         parseOptions();
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         capabilities.setCapability("platform", "Windows 2012");
         capabilities.setCapability("version", "17");
-        capabilities.setCapability("name", scenarioName);
         capabilities.setCapability("tags", new String[]{"web", "firefox", "windows"});
 
         this.driver = new RemoteWebDriver(
                 new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub"),
                 capabilities);
         this.resultReportingTestWatcher = new SauceOnDemandCucumberTestWatcher(this, this.authentication);
+        this.sauceREST = new SauceREST(username, accessKey);
     }
 
     public String getSessionId() {
@@ -101,12 +109,13 @@ public class SauceLabsWebDriver implements SauceOnDemandSessionIdProvider, WebDr
         return this.authentication;
     }
 
-    public void reportResultAndQuit(Scenario scenario) {
-        if (scenario.isFailed()) {
-            this.resultReportingTestWatcher.failed(null, Description.EMPTY);
-        } else {
-            this.resultReportingTestWatcher.succeeded(Description.EMPTY);
-        }
+    public void updateRemoteJobAndQuit(Feature feature, Scenario scenario, boolean scenarioFailed) throws IOException {
+        String jobName = feature.getName() + ": " + scenario.getName();
+        Map<String, Object> updates = new HashMap<String, Object>();
+        updates.put("name", jobName);
+        updates.put("passed", !scenarioFailed);
+        sauceREST.updateJobInfo(this.getSessionId(), updates);
+
         this.driver.quit();
     }
 

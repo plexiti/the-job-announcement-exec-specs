@@ -8,6 +8,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 import static org.fest.assertions.api.Assertions.*;
 
 public class RequestNewAnnouncementStepDefs {
@@ -59,13 +61,17 @@ public class RequestNewAnnouncementStepDefs {
     @Then("^I cannot request a new job announcement$")
     public void I_cannot_request_a_new_job_announcement() throws Throwable {
         driver.findElement(By.linkText("Start the role play!")).click();
-        // Make sure the button is disabled, i.e. cannot be found
-        try {
-            driver.findElement(By.cssSelector("input[value='Request new announcement']"));
-            failBecauseExceptionWasNotThrown(NoSuchElementException.class);
-        } catch (NoSuchElementException e) {
-            assertThat(e).hasMessageContaining("Unable to locate element");
-        }
+        /*
+         * Make sure the button is disabled, i.e. cannot be found
+         *
+         * The method driver.findElement(...) throws an exception when the
+         * element is not found. By using findElements() and asserting the
+         * size of the returned list of elements we avoid having to deal
+         * with an exception that will be reported as an error later.
+         */
+        List<WebElement> elements = driver.findElements(
+                By.cssSelector("input[value='Request new announcement']"));
+        assertThat(elements.size()).isEqualTo(0);
     }
 
     @Then("^A job announcement with these attributes exists that he can work on$")
