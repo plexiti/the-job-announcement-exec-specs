@@ -5,6 +5,7 @@ import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.runtime.formatter.JUnitFeatureAndScenarioAwareFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 
@@ -19,25 +20,23 @@ import java.io.IOException;
  */
 public class CucumberSeleniumHooks {
 
+    @Autowired
     private final SauceLabsWebDriver driver;
 
-    /*
-     * TODO: We should use the interface WebDriver as a parameter and not a specific implementation
-     * so we can use a local driver for development. But before that we need to re-evaluate the use of
-     * PicoContainer as discussed here https://groups.google.com/forum/?fromgroups=#!topic/cukes/v6L8i37v9bw
-     */
-    public CucumberSeleniumHooks(SauceLabsWebDriver webDriver) {
-        this.driver = webDriver;
+    public CucumberSeleniumHooks(SauceLabsWebDriver driver) {
+        this.driver = driver;
     }
 
     @Before
     public void startScenarioTest(Scenario scenario) throws IOException {
-
         System.err.println("@Before hook called");
+        driver.initLocal();
     }
 
     @After
     public void stopScenarioTest(Scenario scenario) throws IOException {
-        this.driver.reportResultAndQuit(scenario);
+        gherkin.formatter.model.Feature featureModel = JUnitFeatureAndScenarioAwareFormatter.getCurrentFeature();
+        gherkin.formatter.model.Scenario scenarioModel = JUnitFeatureAndScenarioAwareFormatter.getCurrentScenario();
+        this.driver.renameRemoteJobReportResultAndQuit(featureModel, scenarioModel, scenario.isFailed());
     }
 }

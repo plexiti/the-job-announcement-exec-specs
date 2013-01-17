@@ -9,6 +9,10 @@ import cucumber.api.junit.Cucumber;
 @RunWith(Cucumber.class)
 @Cucumber.Options(
         features = "src/test/resources/features",
+        glue = {
+                "cucumber.runtime.java.spring.hooks",
+                "com.plexiti.showcase.jobannouncement.validation.ui"
+        },
         format = {
                 "pretty",
                 "html:target/cucumber-html-report",

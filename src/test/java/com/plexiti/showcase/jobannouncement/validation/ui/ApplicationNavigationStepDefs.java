@@ -5,10 +5,13 @@ import cucumber.api.java.en.Given;
 import cucumber.runtime.formatter.JUnitFeatureAndScenarioAwareFormatter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class ApplicationNavigationStepDefs {
+
+    @Autowired
     private final SauceLabsWebDriver driver;
 
     public ApplicationNavigationStepDefs(SauceLabsWebDriver webDriver) {
@@ -17,10 +20,6 @@ public class ApplicationNavigationStepDefs {
 
     @Given("^I am logged in as \"([^\"]*)\"$")
     public void I_am_logged_in_as(String username) throws Throwable {
-        gherkin.formatter.model.Feature featureModel = JUnitFeatureAndScenarioAwareFormatter.getCurrentFeature();
-        gherkin.formatter.model.Scenario scenarioModel = JUnitFeatureAndScenarioAwareFormatter.getCurrentScenario();
-        driver.init(featureModel.getName() + ": " + scenarioModel.getName());
-
         driver.get(driver.getApplicationUrl());
         assertThat(driver.getTitle()).contains("Index");
         switchToUser(username);

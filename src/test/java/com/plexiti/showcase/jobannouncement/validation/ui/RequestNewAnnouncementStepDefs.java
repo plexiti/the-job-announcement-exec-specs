@@ -7,11 +7,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.fest.assertions.api.Assertions.*;
 
 public class RequestNewAnnouncementStepDefs {
 
+    @Autowired
     private final WebDriver driver;
     private String title;
     private String description;
