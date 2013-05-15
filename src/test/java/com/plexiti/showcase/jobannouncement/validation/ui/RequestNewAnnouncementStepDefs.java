@@ -16,7 +16,7 @@ public class RequestNewAnnouncementStepDefs {
 
     private final WebDriver driver;
     private String title;
-    private String description;
+    private String need;
 
     public RequestNewAnnouncementStepDefs(SauceLabsWebDriver driver) {
         this.driver = driver;
@@ -37,12 +37,12 @@ public class RequestNewAnnouncementStepDefs {
         this.title = title;
     }
 
-    @When("^I use the job announcement description$")
-    public void I_use_the_job_announcement_description(String description) throws Throwable {
+    @When("^I use the job announcement need$")
+    public void I_use_the_job_announcement_need(String need) throws Throwable {
         // Fill in the "I need" text area
         WebElement iNeedField = driver.findElement(By.tagName("textarea"));
-        iNeedField.sendKeys(description);
-        this.description = description;
+        iNeedField.sendKeys(need);
+        this.need = need;
     }
 
     @Then("^A new job announcement with these attributes exists$")
@@ -50,12 +50,15 @@ public class RequestNewAnnouncementStepDefs {
         // Submit the new request
         driver.findElement(By.cssSelector("input[value='Request description']")).click();
 
-        // TODO: implement the assertion on the UI
-        assertThat(this.title).isEqualTo("Java Developer");
-        assertThat(this.description).isEqualTo(
-                "- 10+ years Java experience\n" +
-                "- good soft skills\n" +
-                "- experience with BPMN");
+        // Switch to the "To describe" tab
+        driver.findElement(By.partialLinkText("To describe")).click();
+
+        /*
+         * Check that the announcement is there by making sure that there is at least one announcement
+         * with the same title
+         */
+        List<WebElement> tds = driver.findElements(By.xpath("//td[contains(., '" + title + "')]"));
+        assertThat(tds.size()).isGreaterThan(1);
     }
 
     @Then("^I cannot request a new job announcement$")
@@ -78,11 +81,14 @@ public class RequestNewAnnouncementStepDefs {
     public void A_job_announcement_with_these_attributes_exists_that_he_can_work_on() throws Throwable {
         driver.findElement(By.linkText("Start the role play!")).click();
 
-        // TODO: implement the assertion on the UI
-        assertThat(this.title).isEqualTo("Java Developer");
-        assertThat(this.description).isEqualTo(
-                "- 10+ years Java experience\n" +
-                "- good soft skills\n" +
-                "- experience with BPMN");
+      // Switch to the "To describe" tab
+      driver.findElement(By.partialLinkText("To describe")).click();
+
+        /*
+         * Check that the announcement is there by making sure that there is at least one announcement
+         * with the same title
+         */
+      List<WebElement> tds = driver.findElements(By.xpath("//td[contains(., '" + title + "')]"));
+      assertThat(tds.size()).isGreaterThan(1);
     }
 }

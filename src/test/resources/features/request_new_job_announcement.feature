@@ -9,8 +9,10 @@ Feature: Request New Job Announcement
     Given I am logged in as "Gonzo The Great"
     When I request a new job announcement
     And I use the job announcement title "Java Developer"
-    And I use the job announcement description
+    And I use the job announcement need
       """
+      We would need a Java developer with some experience.
+      From the top of my head I think we would need at least the following:
       - 10+ years Java experience
       - good soft skills
       - experience with BPMN
