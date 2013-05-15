@@ -4,11 +4,11 @@ import com.plexiti.showcase.jobannouncement.validation.support.SauceLabsWebDrive
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.fest.assertions.api.Assertions.*;
 
@@ -20,13 +20,18 @@ public class RequestNewAnnouncementStepDefs {
 
     public RequestNewAnnouncementStepDefs(SauceLabsWebDriver driver) {
         this.driver = driver;
+        WebDriver.Options opts = driver.manage();
+        opts.timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     @When("^I request a new job announcement$")
     public void I_request_a_new_job_announcement() throws Throwable {
         driver.findElement(By.linkText("Start the role play!")).click();
+        //WebDriverWait wait = new WebDriverWait(driver, 5);
+        String requestNewAnnouncementCssSelector = "input[value='Request new announcement']";
+        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(requestNewAnnouncementCssSelector)));
         // Click on the "Request new announcement" button
-        driver.findElement(By.cssSelector("input[value='Request new announcement']")).click();
+        driver.findElement(By.cssSelector(requestNewAnnouncementCssSelector)).click();
     }
 
     @When("^I use the job announcement title \"([^\"]*)\"$")
