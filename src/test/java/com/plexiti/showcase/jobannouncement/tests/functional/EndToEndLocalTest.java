@@ -53,7 +53,7 @@ public class EndToEndLocalTest {
         // Check that we are back in the list page
         assertThat(driver.getTitle()).contains("The control center");
 
-        switchToUser("Fozzie Bear");
+        switchToUser("Fozzie The Bear");
 
         // Switch to the "To describe" tab
         switchToTab("To describe");
@@ -95,7 +95,7 @@ public class EndToEndLocalTest {
         // Click on button "Approve for publication"
         driver.findElement(By.cssSelector("input[value='Approve for publication']")).click();
 
-        switchToUser("Fozzie Bear");
+        switchToUser("Fozzie The Bear");
 
         switchToTab("To publish");
 
