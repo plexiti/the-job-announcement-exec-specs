@@ -16,10 +16,10 @@ Feature: Request New Job Announcement
       - experience with BPMN
       """
     Then A new job announcement with these attributes exists
-    Given I am logged in as "Fozzie Bear"
+    Given I am logged in as "Fozzie The Bear"
     Then A job announcement with these attributes exists that he can work on
 
   Scenario: Not being a department manager, I cannot request a new job announcement
-    Given I am logged in as "Fozzie Bear"
+    Given I am logged in as "Fozzie The Bear"
     Then I cannot request a new job announcement
 
