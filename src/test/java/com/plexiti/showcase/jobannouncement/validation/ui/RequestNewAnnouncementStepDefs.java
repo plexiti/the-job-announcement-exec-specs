@@ -63,7 +63,7 @@ public class RequestNewAnnouncementStepDefs {
          * with the same title
          */
         List<WebElement> tds = driver.findElements(By.xpath("//td[contains(., '" + title + "')]"));
-        assertThat(tds.size()).isGreaterThan(1);
+        assertThat(tds.size()).isGreaterThanOrEqualTo(1);
     }
 
     @Then("^I cannot request a new job announcement$")
@@ -94,6 +94,6 @@ public class RequestNewAnnouncementStepDefs {
          * with the same title
          */
       List<WebElement> tds = driver.findElements(By.xpath("//td[contains(., '" + title + "')]"));
-      assertThat(tds.size()).isGreaterThan(1);
+      assertThat(tds.size()).isGreaterThanOrEqualTo(1);
     }
 }
